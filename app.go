@@ -15,6 +15,7 @@ type Opts struct {
 	nomadDataDir        string
 	vectorConfigDir     string
 	extraTemplatesDir   string
+	tplPath             string
 }
 
 // App is the global container that holds

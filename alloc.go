@@ -84,7 +84,7 @@ func (app *App) generateConfig(allocs map[string]*api.Allocation) error {
 	}
 
 	// Load the vector config template.
-	tpl, err := template.ParseFS(vectorTmpl, "vector.toml.tmpl")
+	tpl, err := template.ParseFiles(app.opts.tplPath)
 	if err != nil {
 		return fmt.Errorf("unable to parse template: %v", err)
 	}
