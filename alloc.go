@@ -113,6 +113,14 @@ func (app *App) generateConfig(allocs map[string]*api.Allocation) error {
 	for _, alloc := range allocs {
 		// Add metadata for each task in the alloc.
 		for task := range alloc.TaskResources {
+			var img interface{}
+
+			if alloc.Job.TaskGroups[0].Tasks[0].Config["image"] != nil {
+				img = alloc.Job.TaskGroups[0].Tasks[0].Config["image"]
+			} else {
+				img = alloc.Job.TaskGroups[0].Tasks[0].Config["command"]
+			}
+
 			// Add task to the data.
 			data = append(data, AllocMeta{
 				Key:       fmt.Sprintf("nomad_alloc_%s_%s", alloc.ID, task),
@@ -123,6 +131,7 @@ func (app *App) generateConfig(allocs map[string]*api.Allocation) error {
 				Node:      alloc.NodeName,
 				Task:      task,
 				Job:       alloc.JobID,
+				Image:     fmt.Sprintf("%v", img),
 			})
 		}
 	}
